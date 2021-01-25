@@ -50,6 +50,17 @@ class LinkedList
   end
 
   def get(key)
+    current = first
+    found = false 
+    while !found
+    # until current.key == key
+      if current.key == key 
+        return current.val
+      else 
+        return nil if current.next == nil
+        current = current.next
+      end 
+    end
   end
 
   def include?(key)
@@ -62,6 +73,19 @@ class LinkedList
   end
 
   def update(key, val)
+    current = first
+    found = false 
+    while !found
+    # until current.key == key
+      if current.key == key 
+        current.val = val
+        found = true
+      else 
+        return nil if current.next == nil
+        current = current.next
+      end 
+    end
+    
   end
 
   def remove(key)
