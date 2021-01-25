@@ -66,6 +66,7 @@ class ResizingIntSet
   end
 
   def insert(num)
+    resize! if @count == num_buckets
     if !self[num].include?(num)
       self[num] << num 
       @count += 1
@@ -96,12 +97,10 @@ class ResizingIntSet
   end
 
   def resize!
-    if @store.length == count
       @all_items.each {|item| remove(item)}
-      (num_buckets * 2).times do
+      num_buckets.times do
         @store.push(Array.new)
       end
-    end 
     @all_items.each {|item| insert(item)}
   end
 end
