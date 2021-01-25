@@ -1,3 +1,4 @@
+require 'byebug'
 class Node
   attr_reader :key
   attr_accessor :val, :next, :prev
@@ -13,13 +14,15 @@ class Node
     "#{@key}: #{@val}"
   end
 
-  # def inspect
-  #   @val
-  # end
+  def inspect
+    "#{@key}: #{@val} #{@next}: #{@prev}"
+  end
 
   def remove
     # optional but useful, connects previous link to next link
     # and removes self from list.
+    self.next.prev = self.prev
+    self.prev.next = self.next
   end
 end
 
@@ -64,10 +67,19 @@ class LinkedList
   end
 
   def include?(key)
+    get(key) != nil
+    # result = get(key)
+    # if result != nil
+    #   return true
+    # else
+    #   return false
+    # end
   end
 
   def append(key, val)
     new = Node.new(key, val)
+    new.prev = @tail.prev
+    new.next = @tail
     @tail.prev.next = new
     @tail.prev = new
   end
@@ -89,16 +101,26 @@ class LinkedList
   end
 
   def remove(key)
+    return nil if include?(key) == false
+    current = first
+    found = false 
+    while !found
+      if current.key == key
+        current.remove
+        found = true
+      else 
+        return nil if current.next == nil
+        current = current.next
+      end 
+    end
   end
 
-  def each
+  def each(&prc)
     current_node = first
-    arr = []
-    until current_node == last
-      arr << current_node
+    until current_node == @tail
+      yield(current_node)
       current_node = current_node.next
     end
-    arr
   end
 
   # uncomment when you have `each` working and `Enumerable` included
