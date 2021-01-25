@@ -13,6 +13,10 @@ class Node
     "#{@key}: #{@val}"
   end
 
+  # def inspect
+  #   @val
+  # end
+
   def remove
     # optional but useful, connects previous link to next link
     # and removes self from list.
@@ -64,6 +68,13 @@ class LinkedList
   end
 
   def each
+    current_node = first
+    arr = []
+    until current_node == last
+      arr << current_node
+      current_node = current_node.next
+    end
+    arr
   end
 
   # uncomment when you have `each` working and `Enumerable` included
